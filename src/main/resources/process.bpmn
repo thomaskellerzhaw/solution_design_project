@@ -35,7 +35,7 @@ execution.setVariable("Nachname","Keller")]]></camunda:script>
     <bpmn:sequenceFlow id="SequenceFlow_1wujzei" name="männlich" sourceRef="ExclusiveGateway_1aawns8" targetRef="EndEventProcessEnded">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${Geschlecht=="male"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0dhhxdg" name="weiblich" sourceRef="ExclusiveGateway_1aawns8" targetRef="EndEvent_0t57t0t">
+    <bpmn:sequenceFlow id="SequenceFlow_0dhhxdg" name="weiblich" sourceRef="ExclusiveGateway_1aawns8" targetRef="Task_0vxvcn2">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${Geschlecht=="female"}]]></bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_0t57t0t">
@@ -52,13 +52,20 @@ execution.setVariable("Nachname","Keller")]]></camunda:script>
           </camunda:inputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_0dhhxdg</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0xxph5r</bpmn:incoming>
       <bpmn:messageEventDefinition messageRef="Message_0fpbye4" camunda:class="ch.zhaw.sd.delegates.SendMessageByJavaAPI" />
     </bpmn:endEvent>
     <bpmn:endEvent id="EndEventProcessEnded" name="Process&#10;ended">
       <bpmn:incoming>SequenceFlow_1wujzei</bpmn:incoming>
       <bpmn:signalEventDefinition signalRef="Signal_0d8zx9b" />
     </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0xxph5r" sourceRef="Task_0vxvcn2" targetRef="EndEvent_0t57t0t" />
+    <bpmn:scriptTask id="Task_0vxvcn2" name="Dummy Umsystem" scriptFormat="javascript" camunda:resultVariable="random">
+      <bpmn:incoming>SequenceFlow_0dhhxdg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xxph5r</bpmn:outgoing>
+      <bpmn:script><![CDATA[execution.setVariable("Alter",34);
+Math.random();]]></bpmn:script>
+    </bpmn:scriptTask>
   </bpmn:process>
   <bpmn:message id="Message_0fpbye4" name="myImportantMessage" />
   <bpmn:signal id="Signal_0d8zx9b" name="myImportantSignal" />
@@ -104,15 +111,15 @@ execution.setVariable("Nachname","Keller")]]></camunda:script>
       <bpmndi:BPMNEdge id="SequenceFlow_0dhhxdg_di" bpmnElement="SequenceFlow_0dhhxdg">
         <di:waypoint xsi:type="dc:Point" x="438" y="95" />
         <di:waypoint xsi:type="dc:Point" x="438" y="34" />
-        <di:waypoint xsi:type="dc:Point" x="579" y="34" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="34" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="434" y="59" width="39" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="EndEvent_0slvgyu_di" bpmnElement="EndEvent_0t57t0t">
-        <dc:Bounds x="579" y="16" width="36" height="36" />
+        <dc:Bounds x="660" y="16" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="597" y="56" width="0" height="12" />
+          <dc:Bounds x="678" y="56" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1u934zp_di" bpmnElement="EndEventProcessEnded">
@@ -120,6 +127,16 @@ execution.setVariable("Nachname","Keller")]]></camunda:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="577" y="227" width="41" height="24" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xxph5r_di" bpmnElement="SequenceFlow_0xxph5r">
+        <di:waypoint xsi:type="dc:Point" x="604" y="34" />
+        <di:waypoint xsi:type="dc:Point" x="660" y="34" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="632" y="13" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_04v0o31_di" bpmnElement="Task_0vxvcn2">
+        <dc:Bounds x="504" y="-6" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
