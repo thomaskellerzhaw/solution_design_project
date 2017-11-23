@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.zhaw.solution_design_examples.exceptions;
+package ch.zhaw.sd.exceptions;
 
 /**
  *

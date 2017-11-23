@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.zhaw.solution_design_examples.delegates;
+package ch.zhaw.sd.delegates;
 
-import ch.zhaw.solution_design_examples.exceptions.SendMailException;
+import ch.zhaw.sd.exceptions.SendMailException;
 import java.util.Map;
 import java.util.Properties;
 import javax.activation.DataHandler;

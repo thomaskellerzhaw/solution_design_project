@@ -1,4 +1,4 @@
-package ch.zhaw.solution_design_examples;
+package ch.zhaw.sd;
 
 import java.util.logging.Logger;
 

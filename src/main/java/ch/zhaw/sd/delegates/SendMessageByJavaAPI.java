@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ch.zhaw.solution_design_examples.delegates;
+package ch.zhaw.sd.delegates;
 
-import ch.zhaw.solution_design_examples.exceptions.SendMessageException;
+import ch.zhaw.sd.exceptions.SendMessageException;
 import java.util.HashMap;
 import java.util.Map;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.runtime.Execution;
+import org.camunda.bpm.engine.runtime.MessageCorrelationResult;
 
 /**
  *
@@ -26,7 +28,7 @@ public class SendMessageByJavaAPI implements JavaDelegate {
         System.out.println("businessKey: businessKey of new instance or waiting instance");
         System.out.println("messageBody: a Map of variables");
         System.out.println("throws BpmnError 'SendMessageException'");
-        String messageName, businessKey;
+        String messageName, businessKey, correlationKey;
         Map<String,Object> messageBody;
         try{
             if(de.hasVariableLocal("messageName")){
@@ -43,11 +45,31 @@ public class SendMessageByJavaAPI implements JavaDelegate {
                 System.out.println("SendMessageByJavaAPI: Sending message failed due to missing businessKey");
                 throw new SendMessageException("Missing local variable 'businessKey'");
             }
+            if(de.hasVariableLocal("correlationKey")){
+                correlationKey = (String) de.getVariableLocal("correlationKey");
+            } else {
+                correlationKey = null;
+                System.out.println("SendMessageByJavaAPI: no correlationKey --> starting new instance");
+            }
             if(de.hasVariableLocal("messageBody")){
                 messageBody = (Map<String, Object>) de.getVariableLocal("messageBody");
             } else {
                 System.out.println("SendMessageByJavaAPI: Sending message with no messageBody");
                 messageBody = new HashMap<String,Object>();
+            }
+            if(correlationKey==null){
+                //trying to start new instance
+                de.getProcessEngineServices().getRuntimeService()
+                        .startProcessInstanceByMessage(messageName, businessKey, messageBody);
+            } else {
+                //trying to start waiting instance
+                MessageCorrelationResult result =  de.getProcessEngineServices()
+                        .getRuntimeService()
+                        .createMessageCorrelation(messageName)
+                        .processInstanceVariableEquals("correlationKey", correlationKey)
+                        .correlateWithResult();
+                Execution exec = result.getExecution();
+                de.getProcessEngineServices().getRuntimeService().messageEventReceived(messageName, exec.getId(), messageBody);
             }
         } catch (SendMessageException ex){
             throw new BpmnError("SendMessageException", ex.getMessage());
