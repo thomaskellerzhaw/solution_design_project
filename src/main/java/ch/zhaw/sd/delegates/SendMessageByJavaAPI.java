@@ -47,6 +47,7 @@ public class SendMessageByJavaAPI implements JavaDelegate {
             }
             if(de.hasVariableLocal("correlationKey")){
                 correlationKey = (String) de.getVariableLocal("correlationKey");
+                System.out.println("SendMessageByJavaAPI: correlationKey="+correlationKey);
             } else {
                 correlationKey = null;
                 System.out.println("SendMessageByJavaAPI: no correlationKey --> starting new instance");
@@ -67,9 +68,10 @@ public class SendMessageByJavaAPI implements JavaDelegate {
                         .getRuntimeService()
                         .createMessageCorrelation(messageName)
                         .processInstanceVariableEquals("correlationKey", correlationKey)
+                        .setVariables(messageBody)
                         .correlateWithResult();
-                Execution exec = result.getExecution();
-                de.getProcessEngineServices().getRuntimeService().messageEventReceived(messageName, exec.getId(), messageBody);
+                //Execution exec = result.getExecution();
+                //de.getProcessEngineServices().getRuntimeService().messageEventReceived(messageName, exec.getId(), messageBody);
             }
         } catch (SendMessageException ex){
             throw new BpmnError("SendMessageException", ex.getMessage());
