@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <bpmn:process id="solution_design_project_slave3" name="solution_design_project_slave3" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_1k00w6z</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1kht1yq" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1k00w6z" sourceRef="StartEvent_1" targetRef="Task_15fbl0g" />
+    <bpmn:endEvent id="EndEvent_0i7mmye">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="messageName">mySpecialResponse</camunda:inputParameter>
+          <camunda:inputParameter name="businessKey">777</camunda:inputParameter>
+          <camunda:inputParameter name="correlationKey">${correlationKey}</camunda:inputParameter>
+          <camunda:inputParameter name="messageBody">
+            <camunda:map>
+              <camunda:entry key="Response">Hello From World</camunda:entry>
+            </camunda:map>
+          </camunda:inputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0tn0ycm</bpmn:incoming>
+      <bpmn:messageEventDefinition messageRef="Message_05993ko" camunda:class="ch.zhaw.sd.delegates.SendMessageByJavaAPI" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0tn0ycm" sourceRef="Task_15fbl0g" targetRef="EndEvent_0i7mmye" />
+    <bpmn:userTask id="Task_15fbl0g" name="Task 4" camunda:assignee="demo">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="correlationKey" label="correlationKey" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1k00w6z</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0tn0ycm</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmn:message id="Message_1kht1yq" name="mySpecialMessage" />
+  <bpmn:message id="Message_05993ko" name="mySpecialResponse" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="solution_design_project_slave3">
+      <bpmndi:BPMNShape id="StartEvent_0sd3un8_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="146" y="138" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1k00w6z_di" bpmnElement="SequenceFlow_1k00w6z">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="321" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="265" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1hbk1au_di" bpmnElement="EndEvent_0i7mmye">
+        <dc:Bounds x="547" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="565" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0tn0ycm_di" bpmnElement="SequenceFlow_0tn0ycm">
+        <di:waypoint xsi:type="dc:Point" x="421" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="547" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="484" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_0q5rf5j_di" bpmnElement="Task_15fbl0g">
+        <dc:Bounds x="321" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

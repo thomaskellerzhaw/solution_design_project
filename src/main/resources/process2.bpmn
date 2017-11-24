@@ -12,6 +12,7 @@
           <camunda:formField id="Vorname" label="Vorname" type="string" />
           <camunda:formField id="Nachname" label="Nachname" type="string" />
           <camunda:formField id="Geschlecht" label="Geschlecht" type="string" />
+          <camunda:formField id="verheiratet" label="Verheiratet" type="boolean" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0q38u41</bpmn:incoming>
